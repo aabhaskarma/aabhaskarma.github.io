@@ -18,42 +18,18 @@ p{
     <p><a href="https://www.linkedin.com/in/aabhaskarma/">Click here to view Linkedin profile!</a></p>
 
     <script>
-        (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    // Check if UTM parameters already exist
-    if (!urlParams.has('utm_source')) {
-        const referrer = document.referrer;
-        console.log({referrer})
-        let utmSource = '';
-
-        if (referrer.includes('facebook.com')) {
-            utmSource = 'facebook';
-        } else if (referrer.includes('twitter.com') || referrer.includes('x.com')) {
-            utmSource = 'twitter';
-        } else if (referrer.includes('linkedin.com')) {
-            utmSource = 'linkedin';
-        } else if (referrer.includes('instagram.com')) {
-            utmSource = 'instagram';
-        } else if (referrer.includes('whatsapp.com')) {
-            utmSource = 'whatsapp';
-        } else if (referrer.includes('t.me')) { // Telegram
-            utmSource = 'telegram';
-        } else if (referrer.includes('slack.com')) { // Slack
-            utmSource = 'slack';
-        }
-
-        console.log({utmSource})
-        if (utmSource) {
-            const newUrl = new URL(window.location.href);
-            newUrl.searchParams.set('utm_source', utmSource);
-            newUrl.searchParams.set('utm_medium', 'social');
-            newUrl.searchParams.set('utm_campaign', 'organic_sharing');
-
-            window.history.replaceState({}, '', newUrl);
-        }
-    }
-})();
+        // https://stateful.com/blog/dynamic-utm-tags
+        const searchParams = new URLSearchParams(window.location.search);
+        if (!searchParams.get('utm_source') && document.referrer) {
+            const referrerHostname = new URL(document.referrer).hostname;
+            if (referrerHostname !== window.location.hostname) {
+                const url = new URL(window.location);
+                url.searchParams.set('utm_source', referrerHostname);
+                url.searchParams.set('utm_medium', 'referral');
+                url.searchParams.set('utm_campaign', 'none');
+                window.history.replaceState({}, '', url);
+            }
+          }
     </script>
     
 </body>
