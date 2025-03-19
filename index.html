@@ -39,6 +39,8 @@ p{
             utmSource = 'whatsapp';
         } else if (referrer.includes('t.me')) { // Telegram
             utmSource = 'telegram';
+        } else if (referrer.includes('slack.com')) { // Slack
+            utmSource = 'slack';
         }
 
         console.log({utmSource})
